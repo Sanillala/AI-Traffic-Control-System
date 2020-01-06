@@ -2,6 +2,7 @@
 This project was completed in partial fulfilment of my engineering degree.
 
 **Outline:**
+
 The system utilises SUMO traffic simulator and Python 3 with TensorFlow. The system is developed for minor arterial road intersections 
 with traffic lights with turning signals. The system tries to choose the optimal traffic duration and phase to minimise traffic waiting 
 times around the intersection. 
@@ -11,6 +12,7 @@ A more realistic approach was undertaken when developing this system with regard
 Induction loop sensors were considered and thus the data from these sensors is what is used to drive the system. 
 
 **The Agent:**
+
 **Framework:** Deep Q-Learning
 
 **Environment:** A 4-way intersection with 2 incoming lanes and 2 outgoing lanes per arm. The traffic signals include a turning signal. 

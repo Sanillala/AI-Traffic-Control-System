@@ -1,7 +1,7 @@
 # AI-Traffic-Control-System
 This project was completed in partial fulfilment of my engineering degree.
 
-**Outline:**
+## **Outline:**
 
 The system utilises SUMO traffic simulator and Python 3 with TensorFlow. The system is developed for minor arterial road intersections 
 with traffic lights with turning signals. The system tries to choose the optimal traffic duration and phase to minimise traffic waiting 
@@ -11,7 +11,7 @@ This system is a modified and adapted system developed by [1] as well as extract
 A more realistic approach was undertaken when developing this system with regards to real world sensors and data. 
 Induction loop sensors were considered and thus the data from these sensors is what is used to drive the system. 
 
-**The Agent:**
+## **The Agent:**
 
 **Framework:** Deep Q-Learning
 
@@ -38,7 +38,24 @@ summed to obtain the total waiting time. The goal of the system was to decrease 
 
 **Action Policy:** Since the system is developed to learn over time, an epsilon greedy action possible is applied. 
 
-**References:** 
+
+## **Requirements to run the code:**
+      •	Python 3
+      •	TensorFlow 
+      •	SUMO Traffic simulator
+      •	Traffic Control Interface (TraCI) – this is included with SUMO
+## **Additional files for the traffic generation and intersection layout:**
+      •	Add.xml – This file for the induction loops and initialling the traffic light phases.
+      •	Rou.xml – This file is created when running the code. It is for the vehicle routes and the paths in the simulation.
+      •	Con.xml – This file is for the round connections in the simulations.
+      •	Edg.xml – This is for the lanes.
+      •	Nod.xml – This is for the state and end points for the roads.
+      •	Net.xml – This is a configuration file to combine all the above files and create the road network.
+      •	Netccfg – This is a sumo network configuration.
+      •	Sumocfg – This is GUI file for the simulation
+
+
+## **References:** 
 1.	Vidali A, Crociani L, Vizzari G, Bandini,S, (2019). Bandini. A Deep Reinforcement Learning Approach to Adaptive Traffic Lights Management [cited 23 August 2019]. Available from: http://ceur-ws.org/Vol-2404/paper07.pdf
 2.	Gao J, Shen Y, Liu J, Ito M and Shiratori N. Adaptive Traffic Signal Control: Deep Reinforcement Learning Algorithm with Experience Replay and Target Network. [Internet]. Arxiv.org. 2019 [cited 28 June 2019]. Available from: https://arxiv.org/pdf/1705.02755.pdf
 3.	Liang X, Du X, Wang G, Han Z. (2018). Deep Reinforcement Learning for Traffic Light Control in Vehicular Networks. [cited 10 July 2019]. Available from: https://www.researchgate.net/publication/324104685_Deep_Reinforcement_Learning_for_Traffic_Light_Control_in_Vehicular_Networks

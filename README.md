@@ -3,7 +3,7 @@ This project was completed in partial fulfilment of my engineering degree.
 
 ## **Outline:**
 
-The system utilises SUMO traffic simulator and Python 3 with TensorFlow. The system is developed for minor arterial road intersections 
+The system utilises SUMO traffic simulator and Python 3 with TensorFlow. The system is developed for a minor arterial road intersection 
 with traffic lights with turning signals. Utilising the reinforcement learning algorithm called Deep Q-learning, the system tries to choose the optimal traffic duration and phase to minimise traffic waiting 
 times around the intersection. 
 A 7 second yellow interval was employed, and green durations were adjusted between 10 s, 15 s and 20 s, depending on the vehicle demand. 

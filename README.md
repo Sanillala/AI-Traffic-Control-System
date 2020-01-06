@@ -40,19 +40,19 @@ summed to obtain the total waiting time. The goal of the system was to decrease 
 
 
 ## **Requirements to run the code:**
-      •	Python 3
-      •	TensorFlow 
-      •	SUMO Traffic simulator
-      •	Traffic Control Interface (TraCI) – this is included with SUMO
+•	Python 3
+•	TensorFlow 
+•	SUMO Traffic simulator
+•	Traffic Control Interface (TraCI) – this is included with SUMO
 ## **Additional files for the traffic generation and intersection layout:**
-      •	Add.xml – This file for the induction loops and initialling the traffic light phases.
-      •	Rou.xml – This file is created when running the code. It is for the vehicle routes and the paths in the simulation.
-      •	Con.xml – This file is for the round connections in the simulations.
-      •	Edg.xml – This is for the lanes.
-      •	Nod.xml – This is for the state and end points for the roads.
-      •	Net.xml – This is a configuration file to combine all the above files and create the road network.
-      •	Netccfg – This is a sumo network configuration.
-      •	Sumocfg – This is GUI file for the simulation
+•	Add.xml – This file for the induction loops and initialling the traffic light phases.
+•	Rou.xml – This file is created when running the code. It is for the vehicle routes and the paths in the simulation.
+•	Con.xml – This file is for the round connections in the simulations.
+•	Edg.xml – This is for the lanes.
+•	Nod.xml – This is for the state and end points for the roads.
+•	Net.xml – This is a configuration file to combine all the above files and create the road network.
+•	Netccfg – This is a sumo network configuration.
+•	Sumocfg – This is GUI file for the simulation
 
 
 ## **References:** 

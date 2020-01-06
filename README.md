@@ -4,7 +4,7 @@ This project was completed in partial fulfilment of my engineering degree.
 ## **Outline:**
 
 The system utilises SUMO traffic simulator and Python 3 with TensorFlow. The system is developed for minor arterial road intersections 
-with traffic lights with turning signals. The system tries to choose the optimal traffic duration and phase to minimise traffic waiting 
+with traffic lights with turning signals. Utilising the reinforcement learning algorithm called Deep Q-learning, the system tries to choose the optimal traffic duration and phase to minimise traffic waiting 
 times around the intersection. 
 A 7 second yellow interval was employed, and green durations were adjusted between 10 s, 15 s and 20 s, depending on the vehicle demand. 
 This system is a modified and adapted system developed by [1] as well as extracts from work done by [2, 3]. 
@@ -29,7 +29,7 @@ current traffic phase and current duration.
 However, the phase durations were as consider. 10 s, 15 s and 20 s green phase durations were used in this system. 
 Therefore, the total number of actions were 12. 
 
-**Learning:** Q -learning was used with an Adam optimise. Additionally, Experience Replay techniques were also used so that the system 
+**Learning:** Q-learning was used with an Adaptive Momemnt Estimation (ADAM) optimiser. Additionally, Experience Replay techniques were also used so that the system 
 could learn over time based on its previous memory. 
 
 **Reward:** The reward is based on the vehicle occupancy on the induction loop sensors. These sensors given the time the 

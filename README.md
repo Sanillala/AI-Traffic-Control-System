@@ -1,7 +1,7 @@
 # AI-Traffic-Control-System
 This project was completed in partial fulfilment of my engineering degree.
 
-**Outline**
+**Outline:**
 The system utilises SUMO traffic simulator and Python 3 with TensorFlow. The system is developed for minor arterial road intersections 
 with traffic lights with turning signals. The system tries to choose the optimal traffic duration and phase to minimise traffic waiting 
 times around the intersection. 

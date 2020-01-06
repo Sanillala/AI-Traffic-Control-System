@@ -1,0 +1,13 @@
+<configuration>
+
+ <input>
+ <net-file value="project.net.xml"/>
+ <route-files value="project.rou.xml"/>
+ <additional-files value="project.add.xml"/>
+ </input>
+ <report>
+ <verbose value="true"/>
+ <no-step-log value="true"/>
+ </report>
+
+</configuration>

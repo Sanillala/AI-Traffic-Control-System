@@ -1,0 +1,13 @@
+<configuration>
+<input>
+ <node-files value="project.nod.xml"/>
+ <edge-files value="project.edg.xml"/>
+ <connection-files value="project.con.xml"/>
+</input>
+<output>
+    <output-file value="project.net.xml"/>
+</output>
+<report>
+     <verbose value="true"/>
+</report>
+</configuration>

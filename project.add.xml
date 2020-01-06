@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 08/09/19 16:41:06 by Eclipse SUMO netedit Version 1.2.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="C:\Users\User\Desktop\Simulation\project.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\User\Desktop\Simulation\project.net.xml"/>
+    </output>
+
+    <processing>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="false"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.5"/>
+        <rectangular-lane-cut value="false"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="false"/>
+    </pedestrian>
+
+</configuration>
+-->
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <tlLogic id="0" type="static" programID="project" offset="0">
+        <phase duration="34" state="GGGgrrrrGGGgrrrr"/>
+        <phase duration="7" state="yyyyrrrryyyyrrrr"/>
+        <phase duration="34" state="rrrGrrrrrrrGrrrr"/>
+        <phase duration="7" state="rrryrrrrrrryrrrr"/>
+        <phase duration="34" state="rrrrGGGgrrrrGGGg"/>
+        <phase duration="7" state="rrrryyyyrrrryyyy"/>
+        <phase duration="34" state="rrrrrrrGrrrrrrrG"/>
+        <phase duration="7" state="rrrrrrryrrrrrrry"/>
+    </tlLogic>
+
+ 	<inductionLoop id="Loop1i_1_1" lane="1i_1" pos="485" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop1i_0_1" lane="1i_0" pos="485" freq="900" file="out.xml"/>
+	<inductionLoop id="Loop1i_1_2" lane="1i_1" pos="464" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop1i_0_2" lane="1i_0" pos="464" freq="900" file="out.xml"/>
+	<inductionLoop id="Loop1i_1_3" lane="1i_1" pos="443" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop1i_0_3" lane="1i_0" pos="443" freq="900" file="out.xml"/>
+
+
+
+
+  	<inductionLoop id="Loop2i_1_1" lane="2i_1" pos="485" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop2i_0_1" lane="2i_0" pos="485" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop2i_1_2" lane="2i_1" pos="464" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop2i_0_2" lane="2i_0" pos="464" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop2i_1_3" lane="2i_1" pos="443" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop2i_0_3" lane="2i_0" pos="443" freq="900" file="out.xml"/>
+
+
+
+
+ 	<inductionLoop id="Loop3i_1_1" lane="3i_1" pos="485" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop3i_0_1" lane="3i_0" pos="485" freq="900" file="out.xml"/>
+ 	<inductionLoop id="Loop3i_1_2" lane="3i_1" pos="464" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop3i_0_2" lane="3i_0" pos="464" freq="900" file="out.xml"/>
+ 	<inductionLoop id="Loop3i_1_3" lane="3i_1" pos="443" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop3i_0_3" lane="3i_0" pos="443" freq="900" file="out.xml"/>
+
+
+  	<inductionLoop id="Loop4i_1_1" lane="4i_1" pos="485" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop4i_0_1" lane="4i_0" pos="485" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop4i_1_2" lane="4i_1" pos="464" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop4i_0_2" lane="4i_0" pos="464" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop4i_1_3" lane="4i_1" pos="443" freq="900" file="out.xml"/>
+  	<inductionLoop id="Loop4i_0_3" lane="4i_0" pos="443" freq="900" file="out.xml"/>
+
+</additional>

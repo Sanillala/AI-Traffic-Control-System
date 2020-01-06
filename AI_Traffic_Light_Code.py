@@ -2,7 +2,6 @@
 
 from __future__ import absolute_import
 from __future__ import print_function
-
 import os
 import sys
 import matplotlib.pyplot as plt
@@ -12,30 +11,38 @@ import numpy as np
 import math
 import timeit
 import random
+
+
+#Set SUMO environment path and import SUMO library and Traci
 tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
 sys.path.append(tools)
 import sumolib
 from sumolib import checkBinary
 import traci
 
+#Class for traffic generation
 class TrafficGenerator:
     def __init__(self, Max_Steps):
-        self.Total_Number_Cars = 500  
+        self.Total_Number_Cars = 500  #Number of cars used in the simulation
         self._max_steps = Max_Steps
     def generate_routefile(self, seed):
         np.random.seed(seed)
-        Timing = np.random.poisson(2, self.Total_Number_Cars)
+        Timing = np.random.poisson(2, self.Total_Number_Cars) #Poisson distribution for the car approach rate to teh intersection
         Timing = np.sort(Timing)
         Car_Generation_Steps = []
         min_old = math.floor(Timing[1])
         max_old = math.ceil(Timing[-1])
         min_new = 0
         max_new = self._max_steps
+        
+        #Create .xml file for SUMO simulation
         for value in Timing:
             Car_Generation_Steps = np.append(Car_Generation_Steps, ((max_new - min_new) / (max_old - min_old)) * (value - max_old) + max_new)
 
         Car_Generation_Steps = np.rint(Car_Generation_Steps) 
         with open("project.rou.xml", "w") as routes:
+            
+            #Generate Routes
             print("""<routes>
             <vType accel="1.0" decel="4.5" id="standard_car" length="5.0" minGap="2.5" maxSpeed="25" sigma="0.5" />
 
@@ -52,6 +59,7 @@ class TrafficGenerator:
             <route id="S_N" edges="3i 4o"/>
             <route id="S_E" edges="3i 2o"/>""", file=routes)
 
+            #Generate cars to follow routes
             for car_counter, step in enumerate(Car_Generation_Steps):
                 Straight_or_Turn = np.random.uniform()
                 if Straight_or_Turn < 0.25:
@@ -86,7 +94,8 @@ class TrafficGenerator:
                         print('    <vehicle id="N_E_%i" type="standard_car" route="N_E" depart="%s" departLane="random" departSpeed="10" />' % (car_counter, step), file=routes)
             print("</routes>", file=routes)
 
-class SimRunner:
+#Main class for running the simulation
+class RunSimulation:
     def __init__(self, SimSession, model, memory, traffic_gen, total_episodes, gamma, Max_Steps, Green_Duration, Yellow_Duration, SUMO_Command):
         self.Session = SimSession
         self._Model = model
@@ -106,10 +115,12 @@ class SimRunner:
         self._cumulative_wait_store = []
         self._avg_intersection_queue_store = []
 
+
+    #Defining the initial conditions and running the simulation
     def run(self, episode):
         self._traffic_gen.generate_routefile(episode)
         traci.start(self._SUMO_Command)
-        self._epsilongreedy = 1.0 - (episode / self._total_episodes)
+        self._epsilongreedy = 1.0 - (episode / self._total_episodes) #Epsilon Greedy action policy
         self._steps = 0
         tot_neg_reward = 0
         old_total_wait = 0
@@ -122,12 +133,16 @@ class SimRunner:
             current_total_wait = self._get_waiting_times()
             reward = old_total_wait - current_total_wait
         
+            #Add previous state, action, reward and current state to memory
             if self._steps != 0:
                 self._memory.Add_Sample((old_state, old_action, reward, current_state))
             action = self._choose_action(current_state)
+            
+            
+            #Set yellow phase if traffic signal is different from previous signal
             if self._steps != 0 and old_action != action:
                 self._Set_YellowPhase(old_action)
-                self._simulate(self._yellow_duration)
+                self._simulate(self._yellow_duration) 
             self._Set_GreenPhaseandDuration(action)
             self._simulate(self._green_duration)
             old_state = current_state
@@ -135,10 +150,13 @@ class SimRunner:
             old_total_wait = current_total_wait
             if reward < 0:
                 tot_neg_reward += reward
-
+        
+        #Save stats and print current eposide results
         self._save_stats(tot_neg_reward)
         print("Total reward: {}, Eps: {}".format(tot_neg_reward, self._epsilongreedy))
         traci.close()
+        
+        
     def _simulate(self, steps_todo):
         if (self._steps + steps_todo) >= self._max_steps:
             steps_todo = self._max_steps - self._steps
@@ -149,6 +167,9 @@ class SimRunner:
             steps_todo -= 1
             intersection_queue = self._get_stats()
             self._sum_intersection_queue += intersection_queue
+            
+            
+    #Obtain vehicle waiting times from simulation        
     def _get_waiting_times(self):
         incoming_roads = ["1i", "4i", "2i", "3i"]
         halt_N = traci.inductionloop.getLastStepOccupancy("Loop4i_0_1") + traci.inductionloop.getLastStepOccupancy("Loop4i_0_2") + traci.inductionloop.getLastStepOccupancy(
@@ -166,13 +187,15 @@ class SimRunner:
         wait = halt_N + halt_S + halt_E + halt_W
         total_waiting_time =wait
         return total_waiting_time
-
+    
+    #choose action
     def _choose_action(self, state):
         if random.uniform(0.0,1.0) < self._epsilongreedy:
             return random.randint(0, self._Model.Number_Actions - 3) #Random action
         else:
             return np.argmax(self._Model.predict_one(state, self.Session) ) #Use memory
-
+    
+    #set yellow phase
     def _Set_YellowPhase(self, old_action):
         if old_action == 0 or old_action == 1 or old_action == 2:
           yellow_phase = 1
@@ -182,8 +205,9 @@ class SimRunner:
           yellow_phase = 5
         elif old_action == 9 or old_action == 10 or old_action == 11:
           yellow_phase = 7
-        
         traci.trafficlight.setPhase("0",yellow_phase)
+        
+    #set green phase duration    
     def _Set_GreenPhaseandDuration(self, action):
         if action == 0:
             traci.trafficlight.setPhase("0", 0)
@@ -233,6 +257,8 @@ class SimRunner:
             traci.trafficlight.setPhase("0", 6)
             traci.trafficlight.setPhaseDuration("0", 20)
             self._green_duration = 20
+            
+    #obtain queue stats from simulation        
     def _get_stats(self):
         intersection_queue = 0
         halt_N = traci.inductionloop.getLastStepOccupancy("Loop4i_0_1") + traci.inductionloop.getLastStepOccupancy("Loop4i_0_2") + traci.inductionloop.getLastStepOccupancy(
@@ -250,7 +276,7 @@ class SimRunner:
         intersection_queue = halt_N + halt_S + halt_E + halt_W
         return intersection_queue
        
-
+    #ibtain state after action
     def _get_state(self):
         #Create 12 x 3 Matrix for Vehicle Positions and Velocities
         Position_Matrix = []
@@ -469,7 +495,7 @@ class SimRunner:
         
 
         
-      
+        #Create 4 x 1 matrix for phase state
         Phase = []
         if traci.trafficlight.getPhase('0') == 0 or traci.trafficlight.getPhase('0') == 1 or traci.trafficlight.getPhase('0') == 2:
             Phase = [1, 0, 0, 0]
@@ -486,7 +512,8 @@ class SimRunner:
         state = np.concatenate((Position_Matrix,Velocity_Matrix), axis=0)
         state = state.flatten()
         state =  np.concatenate((state,Phase), axis=0)
-     
+        
+        #Create matrix for duration
         Duration_Matrix = [traci.trafficlight.getPhaseDuration('0')]
 
         Duration_Matrix = np.array(Duration_Matrix)
@@ -494,7 +521,10 @@ class SimRunner:
         state =  np.concatenate((state,Duration_Matrix), axis=0)
        
 
-        return state    
+        return state 
+
+
+    #Replay memory     
     def _replay(self):
         Batch = self._memory.Get_Samples(self._Model.batch_size)
         if len(Batch) > 0:  
@@ -528,6 +558,8 @@ class SimRunner:
     @property
     def avg_intersection_queue_store(self):
         return self._avg_intersection_queue_store
+        
+#Reinforcement learning model        
 class Model:
     def __init__(self, Number_States, Number_Actions, batch_size):
         self._Number_States = Number_States
@@ -542,7 +574,8 @@ class Model:
         self._var_init = None
 
         self._define_model()
-
+    
+    #Create neural network
     def _define_model(self):
       
         self._states = tf.placeholder(shape=[None, self._Number_States], dtype=tf.float32)
@@ -582,7 +615,7 @@ class Model:
     def var_init(self):
         return self._var_init
         
-
+#Class for storying and receiving memory
 class Memory:
     def __init__(self, Memory_Size):
         self._Memory_Size = Memory_Size
@@ -600,7 +633,7 @@ class Memory:
             self.Samples.pop(0)
 
 
-
+#Saving and ploting graphs 
 def save_graphs(sim_runner, total_episodes, plot_path):
 
     plt.rcParams.update({'font.size': 24})
@@ -655,6 +688,7 @@ if __name__ == "__main__":
     Green_Duration = 10
     Yellow_Duration = 7
     
+    #Change to False if Simulation GUI must be shown
     if gui == True:
         sumoBinary = checkBinary('sumo')
     else:
@@ -670,7 +704,7 @@ if __name__ == "__main__":
         print("PATH:", path)
         print("----- Start time:", datetime.datetime.now())
         SimSession.run(model.var_init)
-        sim_runner = SimRunner(SimSession, model, memory, traffic_gen, total_episodes, gamma, Max_Steps, Green_Duration, Yellow_Duration, SUMO_Command)
+        sim_runner = RunSimulation(SimSession, model, memory, traffic_gen, total_episodes, gamma, Max_Steps, Green_Duration, Yellow_Duration, SUMO_Command)
         episode = 0
 
         while episode < total_episodes:

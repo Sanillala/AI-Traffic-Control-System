@@ -29,7 +29,7 @@ current traffic phase and current duration.
 However, the phase durations were as consider. 10 s, 15 s and 20 s green phase durations were used in this system. 
 Therefore, the total number of actions were 12. 
 
-**Learning:** Q-learning was used with an Adaptive Momemnt Estimation (ADAM) optimiser. Additionally, Experience Replay techniques were also used so that the system 
+**Training:** Q-learning was used with an Adaptive Momemnt Estimation (ADAM) optimiser. Additionally, Experience Replay techniques were also used so that the system 
 could learn over time based on its previous memory. 
 
 **Reward:** The reward is based on the vehicle occupancy on the induction loop sensors. These sensors given the time the 
